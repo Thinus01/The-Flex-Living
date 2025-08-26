@@ -1,14 +1,14 @@
-// api/reviews.js (CommonJS)
-const mock = require('./_data/reviews.mock.json'); // <-- no fs
+// api/reviews.js  (Vercel Serverless Function)
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 
-function handler(req, res) {
-  res.setHeader('Cache-Control', 'no-store');
-  res.status(200).json({
-    status: 'success',
-    result: Array.isArray(mock) ? mock : [],
-  });
+export default async function handler(req, res) {
+  try {
+    const filePath = path.join(process.cwd(), 'api', '_data', 'reviews.mock.json');
+    const raw = await readFile(filePath, 'utf8');
+    const arr = JSON.parse(raw);
+    res.status(200).json({ status: 'success', result: Array.isArray(arr) ? arr : [] });
+  } catch (e) {
+    res.status(500).json({ status: 'fail', message: e.message });
+  }
 }
-
-module.exports = handler;
-// optional, but keeps you safely on Node (not Edge)
-module.exports.config = { runtime: 'nodejs18.x' };
