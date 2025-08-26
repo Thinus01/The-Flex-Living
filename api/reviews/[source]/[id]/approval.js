@@ -1,59 +1,58 @@
 // api/reviews/[source]/[id]/approval.js
-export const config = { runtime: 'nodejs' };
+import fs from "fs/promises";
+import path from "path";
 
-// NOTE: demo-only, not persistent across cold starts
-const mem = globalThis.__approvals ?? (globalThis.__approvals = {});
+// IMPORTANT: Vercel only understands "nodejs" or "edge"
+export const config = { runtime: "nodejs" };
 
-function setCommonHeaders(res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 'no-store');
-}
+// On Vercel, the filesystem is read-only except for /tmp (ephemeral).
+const FILE = process.env.VERCEL ? "/tmp/approvals.json"
+                                : path.join(process.cwd(), "api", "_data", "approvals.json");
 
-async function readJsonBody(req) {
+async function readJSONBody(req) {
   const chunks = [];
-  for await (const c of req) chunks.push(c);
-  const raw = Buffer.concat(chunks).toString('utf8');
+  for await (const ch of req) chunks.push(ch);
+  const raw = Buffer.concat(chunks).toString("utf8");
   return raw ? JSON.parse(raw) : {};
 }
 
+async function readAll() {
+  try { return JSON.parse(await fs.readFile(FILE, "utf8")); }
+  catch { return {}; } // file missing first time
+}
+
+async function writeAll(obj) {
+  await fs.writeFile(FILE, JSON.stringify(obj, null, 2), "utf8");
+}
+
 export default async function handler(req, res) {
-  // Preflight for PATCH
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Methods', 'PATCH, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.status(204).end();
-    return;
+  const { source, id } = req.query || {}; // e.g. /api/reviews/hostaway/7453/approval
+
+  if (req.method === "OPTIONS") {
+    // If you’re calling from a different origin, preflight won’t 405
+    res.setHeader("Access-Control-Allow-Methods", "PATCH, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    return res.status(204).end();
   }
 
-  if (req.method !== 'PATCH') {
-    setCommonHeaders(res);
-    res.setHeader('Allow', 'PATCH, OPTIONS');
-    res
-      .status(405)
-      .json({ ok: false, message: 'Method Not Allowed (use PATCH with JSON body)' });
-    return;
+  if (req.method !== "PATCH") {
+    res.setHeader("Allow", "PATCH, OPTIONS");
+    return res.status(405).json({ status: "fail", message: "Method not allowed" });
   }
 
   try {
-    const { source, id } = req.query || {};
-    const body = await readJsonBody(req);
-
-    if (typeof body.approved === 'undefined') {
-      setCommonHeaders(res);
-      res
-        .status(400)
-        .json({ ok: false, message: 'Missing "approved" boolean in body' });
-      return;
+    const body = await readJSONBody(req); // expects { approved: true|false }
+    if (typeof body.approved !== "boolean") {
+      return res.status(400).json({ status: "fail", message: "Missing boolean 'approved' in JSON body" });
     }
 
     const key = `${source}:${id}`;
-    mem[key] = !!body.approved;
+    const all = await readAll();
+    all[key] = body.approved;
+    await writeAll(all);
 
-    setCommonHeaders(res);
-    res.status(200).json({ ok: true, key, approved: mem[key] });
+    return res.status(200).json({ status: "success", result: { key, approved: all[key] } });
   } catch (e) {
-    console.error('approval error:', e);
-    setCommonHeaders(res);
-    res.status(500).json({ ok: false, message: e.message || String(e) });
+    return res.status(500).json({ status: "fail", message: e.message });
   }
 }
