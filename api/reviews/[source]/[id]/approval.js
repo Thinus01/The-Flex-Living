@@ -1,15 +1,33 @@
-const { readFile } = require('fs/promises');
-const path = require('path');
-
-module.exports = async (req, res) => {
-  try {
-    const filePath = path.join(process.cwd(), 'api', '_data', 'reviews.mock.json');
-    const raw = await readFile(filePath, 'utf8');
-    const arr = JSON.parse(raw);
-    res.setHeader('Cache-Control', 'no-store');
-    res.status(200).json({ status: 'success', result: Array.isArray(arr) ? arr : [] });
-  } catch (e) {
-    console.error('reviews error:', e);
-    res.status(500).json({ status: 'fail', message: e.message });
+// api/reviews/[source]/[id]/approval.js  (ESM)
+export default async function handler(req, res) {
+  // CORS/preflight (safe even if same-origin)
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Methods', 'PATCH, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(204).end();
+    return;
   }
-};
+
+  if (req.method !== 'PATCH') {
+    res.setHeader('Allow', 'PATCH, OPTIONS');
+    res.status(405).json({ ok: false, message: 'Method Not Allowed' });
+    return;
+  }
+
+  try {
+    // Parse JSON body (Vercel Node runtime does NOT auto-parse)
+    const chunks = [];
+    for await (const chunk of req) chunks.push(chunk);
+    const bodyStr = Buffer.concat(chunks).toString('utf8');
+    const body = bodyStr ? JSON.parse(bodyStr) : {};
+    const approved = !!body.approved;
+
+    const { source, id } = req.query;
+    // No persistence here; just echo success for optimistic UI
+    res.setHeader('Cache-Control', 'no-store');
+    res.status(200).json({ ok: true, key: `${source}:${id}`, approved });
+  } catch (e) {
+    console.error('approval error:', e);
+    res.status(500).json({ ok: false, message: e.message });
+  }
+}
