@@ -1,7 +1,7 @@
 // api/reviews/[source]/[id]/approval.js
-export const config = { runtime: 'nodejs18.x' };
+export const config = { runtime: 'nodejs' }; // or delete this line to use default
 
-// simple in-memory cache (ephemeral across cold starts)
+// ephemeral in-memory store (ok for demo; not persistent)
 const mem = globalThis.__approvals ?? (globalThis.__approvals = {});
 
 async function readJson(req) {
@@ -12,31 +12,36 @@ async function readJson(req) {
 }
 
 export default async function handler(req, res) {
-  // Allow preflight (if browser sends it)
+  // Preflight for PATCH requests
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Methods', 'PATCH, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    return res.status(204).end();
+    res.status(204).end();
+    return;
   }
 
   if (req.method !== 'PATCH') {
     res.setHeader('Allow', 'PATCH, OPTIONS');
-    return res.status(405).json({ ok: false, message: 'Method Not Allowed' });
+    res.status(405).json({ ok: false, message: 'Method Not Allowed' });
+    return;
   }
 
   try {
     const { source, id } = req.query || {};
     const body = await readJson(req);
+
     if (typeof body.approved === 'undefined') {
-      return res.status(400).json({ ok: false, message: 'Missing "approved" boolean in body' });
+      res.status(400).json({ ok: false, message: 'Missing "approved" boolean in body' });
+      return;
     }
 
     const key = `${source}:${id}`;
-    mem[key] = !!body.approved; // ephemeral
+    mem[key] = !!body.approved; // demo-only persistence
 
-    return res.status(200).json({ ok: true, key, approved: mem[key] });
+    res.setHeader('Cache-Control', 'no-store');
+    res.status(200).json({ ok: true, key, approved: mem[key] });
   } catch (e) {
     console.error('approval error:', e);
-    return res.status(500).json({ ok: false, message: e.message || String(e) });
+    res.status(500).json({ ok: false, message: e.message || String(e) });
   }
 }
