@@ -1,53 +1,42 @@
 // api/reviews/[source]/[id]/approval.js
 export const config = { runtime: 'nodejs18.x' };
 
-function send(res, status, json) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 'no-store');
-  res.status(status).json(json);
-}
+// simple in-memory cache (ephemeral across cold starts)
+const mem = globalThis.__approvals ?? (globalThis.__approvals = {});
 
 async function readJson(req) {
   const chunks = [];
-  for await (const chunk of req) chunks.push(chunk);
+  for await (const c of req) chunks.push(c);
   const raw = Buffer.concat(chunks).toString('utf8');
-  if (!raw) return {};
-  try {
-    return JSON.parse(raw);
-  } catch {
-    return {};
-  }
+  return raw ? JSON.parse(raw) : {};
 }
 
 export default async function handler(req, res) {
-  // Preflight for PATCH
+  // Allow preflight (if browser sends it)
   if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'PATCH, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.status(204).end();
-    return;
+    return res.status(204).end();
   }
 
   if (req.method !== 'PATCH') {
     res.setHeader('Allow', 'PATCH, OPTIONS');
-    return send(res, 405, { ok: false, message: 'Method Not Allowed' });
+    return res.status(405).json({ ok: false, message: 'Method Not Allowed' });
   }
 
   try {
     const { source, id } = req.query || {};
     const body = await readJson(req);
-
     if (typeof body.approved === 'undefined') {
-      return send(res, 400, { ok: false, message: 'Missing "approved" boolean in body' });
+      return res.status(400).json({ ok: false, message: 'Missing "approved" boolean in body' });
     }
 
-    const approved = !!body.approved;
+    const key = `${source}:${id}`;
+    mem[key] = !!body.approved; // ephemeral
 
-    // No persistence here (Vercel FS is read-only). Echo success for optimistic UI.
-    return send(res, 200, { ok: true, key: `${source}:${id}`, approved });
+    return res.status(200).json({ ok: true, key, approved: mem[key] });
   } catch (e) {
     console.error('approval error:', e);
-    return send(res, 500, { ok: false, message: e.message || String(e) });
+    return res.status(500).json({ ok: false, message: e.message || String(e) });
   }
 }
