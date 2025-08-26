@@ -1,11 +1,16 @@
 // api/debug-files.js
 const fs = require('fs/promises');
 const path = require('path');
-module.exports = async (_req, res) => {
+
+async function handler(_req, res) {
   try {
-    const files = await fs.readdir(path.join(__dirname, '_data'));
-    res.status(200).json({ dataDir: path.join(__dirname, '_data'), files });
+    const dir = path.join(__dirname, '_data');
+    const files = await fs.readdir(dir);
+    res.status(200).json({ dir, files });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
-};
+}
+
+module.exports = handler;
+module.exports.config = { runtime: 'nodejs18.x' };
