@@ -1,0 +1,104 @@
+[
+  {
+    "id": 1001,
+    "propertyId": 101,
+    "type": "host-to-guest",
+    "status": "published",
+    "rating": null,
+    "publicReview": "Shane and family are wonderful! Would definitely host again :)",
+    "reviewCategory": [
+      { "category": "cleanliness", "rating": 10 },
+      { "category": "communication", "rating": 10 },
+      { "category": "respect_house_rules", "rating": 10 }
+    ],
+    "submittedAt": "2024-06-12 10:15:00",
+    "guestName": "Shane Finkelstein",
+    "listingName": "Stylish 2 Bed Apartment in Lewisham",
+    "channel": "mock"
+  },
+  {
+    "id": 1002,
+    "propertyId": 102,
+    "type": "host-to-guest",
+    "status": "published",
+    "rating": 8,
+    "publicReview": "Great stay overall, very clean and close to transport.",
+    "reviewCategory": [
+      { "category": "cleanliness", "rating": 9 },
+      { "category": "communication", "rating": 8 },
+      { "category": "respect_house_rules", "rating": 8 }
+    ],
+    "submittedAt": "2024-11-02 14:00:00",
+    "guestName": "Amira Khan",
+    "listingName": "Stylish 2 Bed Apartment in Lewisham",
+    "channel": "mock"
+  },
+  {
+    "id": 1003,
+    "propertyId": 103,
+    "type": "host-to-guest",
+    "status": "published",
+    "rating": 6,
+    "publicReview": "Nice flat but noise from the street at night.",
+    "reviewCategory": [
+      { "category": "cleanliness", "rating": 7 },
+      { "category": "communication", "rating": 6 },
+      { "category": "respect_house_rules", "rating": 5 }
+    ],
+    "submittedAt": "2025-02-19 09:30:00",
+    "guestName": "Leo Martins",
+    "listingName": "Stylish 2 Bed Apartment in Lewisham",
+    "channel": "mock"
+  },
+  {
+    "id": 2001,
+    "propertyId": 101,
+    "type": "host-to-guest",
+    "status": "published",
+    "rating": 9,
+    "publicReview": "Loved the view and the quick responses from host.",
+    "reviewCategory": [
+      { "category": "cleanliness", "rating": 9 },
+      { "category": "communication", "rating": 10 },
+      { "category": "respect_house_rules", "rating": 9 }
+    ],
+    "submittedAt": "2024-08-21 22:45:14",
+    "guestName": "Hannah Lee",
+    "listingName": "2B N1 A - 29 Shoreditch Heights",
+    "channel": "mock"
+  },
+  {
+    "id": 2002,
+    "propertyId": 102,
+    "type": "host-to-guest",
+    "status": "published",
+    "rating": null,
+    "publicReview": "Great location and comfy bed.",
+    "reviewCategory": [
+      { "category": "cleanliness", "rating": 8 },
+      { "category": "communication", "rating": 8 },
+      { "category": "respect_house_rules", "rating": 8 }
+    ],
+    "submittedAt": "2025-05-03 16:10:00",
+    "guestName": "Patrick O’Donnell",
+    "listingName": "2B N1 A - 29 Shoreditch Heights",
+    "channel": "mock"
+  },
+  {
+    "id": 2003,
+    "propertyId": 103,
+    "type": "host-to-guest",
+    "status": "published",
+    "rating": 5,
+    "publicReview": "Check-in was confusing; host eventually helped.",
+    "reviewCategory": [
+      { "category": "cleanliness", "rating": 6 },
+      { "category": "communication", "rating": 5 },
+      { "category": "respect_house_rules", "rating": 5 }
+    ],
+    "submittedAt": "2025-07-11 12:05:00",
+    "guestName": "Kayla Roberts",
+    "listingName": "2B N1 A - 29 Shoreditch Heights",
+    "channel": "mock"
+  }
+]

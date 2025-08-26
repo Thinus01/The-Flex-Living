@@ -1,0 +1,8 @@
+{
+  "mock:1001": true,
+  "mock:1002": true,
+  "mock:2001": false,
+  "mock:2002": false,
+  "mock:1003": false,
+  "mock:2003": true
+}

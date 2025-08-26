@@ -1,0 +1,39 @@
+{
+  "name": "flex-living-review",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev:web": "vite",
+    "dev:api": "node --watch server/index.js",
+    "dev": "concurrently -k -n web,api \"npm:dev:web\" \"npm:dev:api\"",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.11.0",
+    "concurrently": "^9.2.1",
+    "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "react": "^19.1.1",
+    "react-day-picker": "^9.9.0",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.8.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@tailwindcss/vite": "^4.1.12",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "nodemon": "^3.1.10",
+    "tailwindcss": "^4.1.12",
+    "vite": "^7.1.2"
+  }
+}

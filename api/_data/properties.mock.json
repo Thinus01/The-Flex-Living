@@ -1,0 +1,78 @@
+[
+  {
+    "id": 101,
+    "title": "Stylish 2-Bed Apartment · Lewisham (Hither Green)",
+    "slug": "stylish-2-bed-apartment-lewisham-hither-green",
+    "image": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop",
+    "center": { "lat": 51.4619, "lng": -0.0017 },
+    "capacity": { "guests": 5, "bedrooms": 2, "bathrooms": 2, "beds": 3 },
+    "about": "Bright, family-friendly flat near Hither Green with fast Wi-Fi, desk, and a sunny balcony.",
+    "amenities": ["Kitchen", "Washer", "Heating", "Wi-Fi", "Elevator", "Smoke Detector", "Crib"],
+    "policies": {
+      "checkin": "3:00 PM",
+      "checkout": "10:00 AM",
+      "houseRules": ["No smoking", "No parties", "Respect quiet hours"],
+      "cancellation": ["Full refund up to 14 days before check-in"],
+      "fees": [{ "label": "Cleaning fee", "amount": 100 }],
+      "quietHours": { "from": "22:00", "to": "07:00" }
+    },
+    "pricing": { "nightly": 228, "cleaningFee": 100, "discounts": { "lengthOfStayPercent": 15 } },
+    "photos": [
+      { "src": "https://images.unsplash.com/photo-1523217582562-09d0def993a6?q=80&w=1600&auto=format&fit=crop", "alt": "Living room with large windows" },
+      { "src": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1600&auto=format&fit=crop", "alt": "Balcony with table and chairs" },
+      { "src": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1600&auto=format&fit=crop", "alt": "Cozy bedroom" },
+      { "src": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1600&auto=format&fit=crop", "alt": "Modern bathroom" },
+      { "src": "https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=1600&auto=format&fit=crop", "alt": "Kitchen with island" }
+    ]
+  },
+  {
+    "id": 102,
+    "title": "Bright 1-Bed Garden Flat · Lewisham",
+    "slug": "bright-1-bed-garden-flat-lewisham",
+    "image": "https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=1600&auto=format&fit=crop",
+    "center": { "lat": 51.4545, "lng": -0.0175 },
+    "capacity": { "guests": 3, "bedrooms": 1, "bathrooms": 1, "beds": 2 },
+    "about": "Ground-floor flat with private garden. Ideal for remote work and long stays.",
+    "amenities": ["Kitchen", "Washer", "Wi-Fi", "Heating", "Garden", "Coffee Maker"],
+    "policies": {
+      "checkin": "3:00 PM",
+      "checkout": "10:00 AM",
+      "houseRules": ["No pets", "No parties"],
+      "cancellation": ["Full refund up to 14 days before check-in"],
+      "fees": [{ "label": "Cleaning fee", "amount": 75 }],
+      "quietHours": { "from": "22:00", "to": "07:00" }
+    },
+    "pricing": { "nightly": 165, "cleaningFee": 75, "discounts": { "lengthOfStayPercent": 10 } },
+    "photos": [
+      { "src": "https://images.unsplash.com/photo-1484101403633-562f891dc89a?q=80&w=1600&auto=format&fit=crop", "alt": "Living room opening to garden" },
+      { "src": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop", "alt": "Private garden seating" },
+      { "src": "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?q=80&w=1600&auto=format&fit=crop", "alt": "Minimal kitchen" },
+      { "src": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1600&auto=format&fit=crop", "alt": "Bedroom with garden view" }
+    ]
+  },
+  {
+    "id": 103,
+    "title": "Family 3-Bed Maisonette · Blackheath",
+    "slug": "family-3-bed-maisonette-blackheath",
+    "image": "https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1600&auto=format&fit=crop",
+    "center": { "lat": 51.4674, "lng": 0.0074 },
+    "capacity": { "guests": 6, "bedrooms": 3, "bathrooms": 2, "beds": 4 },
+    "about": "Spacious maisonette near the heath. Great for families and longer stays.",
+    "amenities": ["Kitchen", "Dishwasher", "Washer", "Wi-Fi", "Heating", "High Chair"],
+    "policies": {
+      "checkin": "3:00 PM",
+      "checkout": "10:00 AM",
+      "houseRules": ["No smoking", "No parties"],
+      "cancellation": ["Full refund up to 14 days before check-in"],
+      "fees": [{ "label": "Cleaning fee", "amount": 120 }],
+      "quietHours": { "from": "22:00", "to": "07:00" }
+    },
+    "pricing": { "nightly": 275, "cleaningFee": 120, "discounts": { "lengthOfStayPercent": 15 } },
+    "photos": [
+      { "src": "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1600&auto=format&fit=crop", "alt": "Open plan living" },
+      { "src": "https://images.unsplash.com/photo-1527030280862-64139fba04ca?q=80&w=1600&auto=format&fit=crop", "alt": "Master bedroom" },
+      { "src": "https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=1600&auto=format&fit=crop", "alt": "Kids room with bunk beds" },
+      { "src": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1600&auto=format&fit=crop", "alt": "Family bathroom" }
+    ]
+  }
+]
