@@ -1,21 +1,15 @@
 // api/reviews/[source]/[id]/approval.js
-export const config = { runtime: "nodejs" }; // or omit
-
 export default async function handler(req, res) {
-  if (req.method === "OPTIONS") {
-    res.setHeader("Access-Control-Allow-Methods", "PATCH, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-    return res.status(204).end();
-  }
-  if (req.method !== "PATCH") {
-    res.setHeader("Allow", "PATCH, OPTIONS");
-    return res.status(405).json({ status: "fail", message: "Method not allowed" });
-  }
-  let body = "";
-  for await (const chunk of req) body += chunk;
-  const { approved } = body ? JSON.parse(body) : {};
-  if (typeof approved !== "boolean") {
-    return res.status(400).json({ status: "fail", message: "Missing boolean 'approved'" });
-  }
-  return res.status(200).json({ status: "success", result: { approved } });
+  // read raw body so we can see what arrives
+  let raw = "";
+  for await (const chunk of req) raw += chunk;
+
+  res.setHeader("Content-Type", "application/json");
+  res.status(200).json({
+    ok: true,
+    method: req.method,
+    routeParams: req.query,     // { source: "...", id: "..." }
+    contentType: req.headers["content-type"] || null,
+    rawBody: raw || null
+  });
 }
