@@ -11,8 +11,10 @@ export default async function handler(req, res) {
 
     // PATCH: update approved
     if (req.method === "PATCH") {
-      const { source, id, approved } = req.body || {};
+      let body = req.body;
+      if (typeof body === "string") body = JSON.parse(body);
 
+      const { source, id, approved } = body;
       const review = reviews.find(r => r.channel === source && r.id === Number(id));
       if (!review) return res.status(404).json({ status: "fail", message: "Review not found" });
 
@@ -35,4 +37,5 @@ export default async function handler(req, res) {
     return res.status(500).json({ status: "fail", message: e.message });
   }
 }
+
 
