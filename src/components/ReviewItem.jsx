@@ -1,5 +1,6 @@
 // review item component
 export default function ReviewItem({ review, showToggle, onToggle, hideType = false }) {
+  console.log(review);
   // derive rating
   const rating = typeof review.overall === "number" ? review.overall : review.rating;
   // color flags
@@ -55,3 +56,4 @@ export default function ReviewItem({ review, showToggle, onToggle, hideType = fa
 function TriangleUp(props){ return (<svg viewBox="0 0 24 24" {...props}><path d="M12 5l9 14H3z"/></svg>); }
 function TriangleDown(props){ return (<svg viewBox="0 0 24 24" {...props}><path d="M12 19L3 5h18z"/></svg>); }
 function Minus(props){ return (<svg viewBox="0 0 24 24" {...props}><path d="M4 11h16v2H4z"/></svg>); }
+
