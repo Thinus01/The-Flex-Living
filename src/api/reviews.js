@@ -16,25 +16,17 @@ export async function fetchReviews(params = {}) {
 }
 
 // update review approval
-export async function setApproval({ source = "hostaway", id, approved }) {
-  const res = await fetch(
-    `/api/reviews/${encodeURIComponent(source)}/${encodeURIComponent(id)}/approval`,
-    {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ approved }),
-    }
-  );
+export async function setApproval({ source, id, approved }) {
+  const res = await fetch("/api/reviews", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ source, id, approved }),
+  });
 
-  const text = await res.text().catch(() => "");
-  if (!res.ok) throw new Error(`PATCH ${res.status}: ${text || "no body"}`);
-
-  try {
-    return JSON.parse(text);
-  } catch {
-    return {};
-  }
+  if (!res.ok) throw new Error(`PATCH failed (${res.status})`);
+  return res.json();
 }
+
 
 // fetch approvals list
 export async function fetchApprovals() {
@@ -43,6 +35,7 @@ export async function fetchApprovals() {
   if (!res.ok) throw new Error(`GET /api/approvals failed (${res.status})`);
   return res.json();
 }
+
 
 
 
