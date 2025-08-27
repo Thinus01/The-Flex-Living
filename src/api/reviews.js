@@ -18,7 +18,7 @@ export async function fetchReviews(params = {}) {
 // update review approval
 export async function setApproval({ source = "hostaway", id, approved }) {
   const res = await fetch(
-    `/api/reviews?source=${encodeURIComponent(source)}&id=${encodeURIComponent(id)}`,
+    `/api/reviews/${encodeURIComponent(source)}/${encodeURIComponent(id)}/approval`,
     {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -43,5 +43,6 @@ export async function fetchApprovals() {
   if (!res.ok) throw new Error(`GET /api/approvals failed (${res.status})`);
   return res.json();
 }
+
 
 
