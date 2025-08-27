@@ -17,26 +17,27 @@ export async function fetchReviews(params = {}) {
 
 // update review approval
 export async function setApproval({ source = "hostaway", id, approved }) {
-  // PATCH approval flag
-  const res = await fetch(
-    `/api/reviews/${encodeURIComponent(source)}/${encodeURIComponent(id)}/approval`,
-    {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ approved }),
-    }
-  );
-  // read body as text
+  // PATCH approval flag using the new API route
+  const res = await fetch(`/api/approvals`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ source, id, approved }),
+  });
+
+  // Read body as text
   const text = await res.text().catch(() => "");
-  // throw on error status
+
+  // Throw on error status
   if (!res.ok) throw new Error(`PATCH ${res.status}: ${text || "no body"}`);
-  // parse or return empty
+
+  // Parse or return empty
   try {
     return JSON.parse(text);
   } catch {
     return {};
   }
 }
+
 
 // fetch approvals list
 export async function fetchApprovals() {
@@ -45,3 +46,4 @@ export async function fetchApprovals() {
   if (!res.ok) throw new Error(`GET /api/approvals failed (${res.status})`);
   return res.json();
 }
+
