@@ -1,4 +1,3 @@
-// api/approvals.js
 import { getAll, setOne } from "./_lib/store.js";
 
 async function readJSON(req) {
