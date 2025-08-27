@@ -1,13 +1,20 @@
-import { kv } from "@vercel/kv";
+import fs from "fs/promises";
+
+const FILE = "/tmp/reviews.mock.json";
 
 export default async function handler(req, res) {
+  const reviews = JSON.parse(await fs.readFile(FILE, "utf8").catch(() => "[]"));
+
   if (req.method === "PATCH") {
     const { source, id, approved } = req.body;
-    await kv.hset("reviews", `${source}:${id}`, approved ? "true" : "false");
-    return res.status(200).json({ status: "success", result: { source, id, approved } });
+    const review = reviews.find(r => r.channel === source && r.id === id);
+    if (!review) return res.status(404).json({ status: "fail", message: "Not found" });
+
+    review.approved = !!approved;
+    await fs.writeFile(FILE, JSON.stringify(reviews, null, 2), "utf8");
+
+    return res.status(200).json({ status: "success", result: review });
   }
-  if (req.method === "GET") {
-    const all = await kv.hgetall("reviews");
-    return res.status(200).json({ status: "success", result: all });
-  }
+
+  return res.status(200).json({ status: "success", result: reviews });
 }
